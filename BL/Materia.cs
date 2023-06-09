@@ -11,8 +11,9 @@ namespace BL
     public class Materia
     {
 
-        public static void Add(ML.Materia materia)
+        public static ML.Result Add(ML.Materia materia)
         {
+            ML.Result result = new ML.Result();
         
             try
             {
@@ -41,7 +42,8 @@ namespace BL
 
                         if (RowsAffected > 0)
                         {
-                            
+                            result.Correct = true;
+                            result.Message = "El registro se inserto correctamente";
                         }
 
                     }
@@ -52,12 +54,20 @@ namespace BL
 
             catch (Exception ex)
             {
-                
-
+                result.Correct =false;
+                result.Ex = ex;
+                result.Message = "Ocurrio un error al intentar registrar" + result.Ex;
             }
 
-           
+           return result;
 
+        }
+
+
+        public static int Sumar(int numeroUno, int numeroDos)
+        {
+            int result = numeroUno + numeroDos;
+            return result;
         }
     }
 }
