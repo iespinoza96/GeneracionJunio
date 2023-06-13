@@ -13,8 +13,13 @@ namespace PL
             //PL.Materia materia = new PL.Materia();
 
             //materia.Add();
+           
 
-            PL.Materia.Add();
+            //PL.Materia.Add();
+            //PL.Materia.GetAll();
+            PL.Materia.GetById();
+
+            Console.ReadKey();
 
             
         }
