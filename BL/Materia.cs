@@ -11,6 +11,8 @@ namespace BL
 {
     public class Materia
     {
+        // 3 query normal (Insert, update , delete)
+        // 5 SP (Add,Update,Delete,GetAll y GetById)
 
         public static ML.Result Add(ML.Materia materia)
         {

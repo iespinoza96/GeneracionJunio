@@ -8,7 +8,7 @@ namespace PL
 {
     public class Materia
     {
-       
+       // 5 métodos
         public  static void Add()
         {
             ML.Materia materia = new ML.Materia();
@@ -21,6 +21,8 @@ namespace PL
             materia.Creditos = byte.Parse(Console.ReadLine());
 
             ML.Result result = BL.Materia.Add(materia);
+            //ML.Result result = BL.Materia.AddSP(materia);
+            //ML.Result result = BL.Materia.AddEF(materia);
 
             if (result.Correct)
             {

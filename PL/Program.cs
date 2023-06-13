@@ -10,6 +10,11 @@ namespace PL
     {
         static void Main(string[] args)
         {
+
+            //do while
+            //switch 
+            //add
+            //
             //PL.Materia materia = new PL.Materia();
 
             //materia.Add();
