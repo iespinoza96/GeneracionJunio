@@ -91,7 +91,7 @@ namespace BL
                         {
                             result.Objects = new List<object>();
 
-                            foreach (DataRow row in tableMateria.Rows )
+                            foreach (DataRow row in tableMateria.Rows)
                             {
                                 ML.Materia materia = new ML.Materia();
                                 materia.IdMateria = int.Parse(row[0].ToString());
@@ -181,7 +181,7 @@ namespace BL
 
                             result.Correct = true;
                         }
-        
+
 
                     }
 
@@ -201,6 +201,39 @@ namespace BL
 
 
             return result;
+        }
+
+        //EF 
+
+        public static ML.Result AddEF(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
+                {
+                    int queryResult = context.MateriaAdd(materia.Nombre, materia.Creditos, materia.Semestre.IdSemestre);
+
+                    if (queryResult > 0)
+                    {
+                        result.Correct = true;
+                    }
+
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = "Ocurrio un error al intentar registrar" + result.Ex;
+            }
+
+            return result;
+
         }
 
 

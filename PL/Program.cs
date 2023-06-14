@@ -23,6 +23,9 @@ namespace PL
             //PL.Materia.Add();
             //PL.Materia.GetAll();
             PL.Materia.GetById();
+            ML.Materia materia  = new ML.Materia();
+
+            
 
             Console.ReadKey();
 

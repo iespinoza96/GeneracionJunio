@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ML
 {
-    public class Materia
+    public class Semestre
     {
-        public int IdMateria { get; set; }
+        public byte IdSemestre { get; set; }
         public string Nombre { get; set; }
-        public byte Creditos { get; set; }
-        public ML.Semestre Semestre { get; set; }
     }
 }

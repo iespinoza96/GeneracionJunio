@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3353EB68-8DA2-4021-9A34-CDCD02857641}</ProjectGuid>
+    <ProjectGuid>{F3E7AD09-0E08-4344-88F0-D1EE6DE08A49}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BL</RootNamespace>
-    <AssemblyName>BL</AssemblyName>
+    <RootNamespace>DL_EF</RootNamespace>
+    <AssemblyName>DL_EF</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -43,6 +43,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,26 +53,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Materia.cs" />
+    <Compile Include="LEscogidoProgramacionNCapas.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LEscogidoProgramacionNCapas.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LEscogidoProgramacionNCapas.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LEscogidoProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LEscogidoProgramacionNCapas.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LEscogidoProgramacionNCapas.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DL\DL.csproj">
-      <Project>{74982a0c-afce-4a13-8848-1d58c634e9ae}</Project>
-      <Name>DL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DL_EF\DL_EF.csproj">
-      <Project>{f3e7ad09-0e08-4344-88f0-d1ee6de08a49}</Project>
-      <Name>DL_EF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ML\ML.csproj">
-      <Project>{483f97a4-c712-4232-b713-ab88945a18f3}</Project>
-      <Name>ML</Name>
-    </ProjectReference>
+    <None Include="App.config" />
+    <EntityDeploy Include="LEscogidoProgramacionNCapas.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LEscogidoProgramacionNCapas.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="LEscogidoProgramacionNCapas.edmx.diagram">
+      <DependentUpon>LEscogidoProgramacionNCapas.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Content Include="LEscogidoProgramacionNCapas.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LEscogidoProgramacionNCapas.edmx</DependentUpon>
+      <LastGenOutput>LEscogidoProgramacionNCapas.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="LEscogidoProgramacionNCapas.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LEscogidoProgramacionNCapas.edmx</DependentUpon>
+      <LastGenOutput>LEscogidoProgramacionNCapas.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
