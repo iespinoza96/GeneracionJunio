@@ -20,9 +20,15 @@ namespace PL
             Console.WriteLine("Ingrese los creditos");
             materia.Creditos = byte.Parse(Console.ReadLine());
 
-            ML.Result result = BL.Materia.Add(materia);
-            //ML.Result result = BL.Materia.AddSP(materia);
-            //ML.Result result = BL.Materia.AddEF(materia);
+            Console.WriteLine("Ingrese los creditos");
+            materia.Semestre = new ML.Semestre(); 
+            materia.Semestre.IdSemestre = byte.Parse(Console.ReadLine());
+
+
+
+            //ML.Result result = BL.Materia.Add(materia); //query
+            //ML.Result result = BL.Materia.AddSP(materia); //SP
+            ML.Result result = BL.Materia.AddEF(materia); //EF
 
             if (result.Correct)
             {

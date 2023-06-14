@@ -11,6 +11,6 @@ namespace ML
         public int IdMateria { get; set; }
         public string Nombre { get; set; }
         public byte Creditos { get; set; }
-        public ML.Semestre Semestre { get; set; }
+        public ML.Semestre Semestre { get; set; } // propiedad de navegacion fk
     }
 }

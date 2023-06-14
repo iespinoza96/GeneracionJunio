@@ -219,9 +219,7 @@ namespace BL
                     {
                         result.Correct = true;
                     }
-
                 }
-
 
             }
 
@@ -236,6 +234,6 @@ namespace BL
 
         }
 
-
+        
     }
 }
