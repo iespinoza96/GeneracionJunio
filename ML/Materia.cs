@@ -8,7 +8,7 @@ namespace ML
 {
     public class Materia
     {
-        public int IdMateria { get; set; }
+        public int IdMateria { get; set; } //va permitir almacenar el null
         public string Nombre { get; set; }
         public byte Creditos { get; set; }
         public ML.Semestre Semestre { get; set; } // propiedad de navegacion fk

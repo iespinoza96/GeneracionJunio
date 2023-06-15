@@ -54,23 +54,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LEscogidoProgramacionNCapasGJModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="LEscogidoProgramacionNCapasGJEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="MateriaAdd">
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-            <Parameter Name="Creditos" Mode="In" Type="Byte" />
-            <Parameter Name="IdSemestre" Mode="In" Type="Byte" />
-          </FunctionImport>
-          <EntitySet Name="Materias" EntityType="LEscogidoProgramacionNCapasGJModel.Materia" />
-          <EntitySet Name="Semestres" EntityType="LEscogidoProgramacionNCapasGJModel.Semestre" />
-          <AssociationSet Name="FK__Materia__IdSemes__15502E78" Association="LEscogidoProgramacionNCapasGJModel.FK__Materia__IdSemes__15502E78">
-            <End Role="Semestre" EntitySet="Semestres" />
-            <End Role="Materia" EntitySet="Materias" />
-          </AssociationSet>
-          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result)" />
-          <FunctionImport Name="MateriaGetById" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result)">
-            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
-          </FunctionImport>
-        </EntityContainer>
         <EntityType Name="Materia">
           <Key>
             <PropertyRef Name="IdMateria" />
@@ -79,19 +62,19 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Creditos" Type="Byte" />
           <Property Name="IdSemestre" Type="Byte" />
-          <NavigationProperty Name="Semestre" Relationship="LEscogidoProgramacionNCapasGJModel.FK__Materia__IdSemes__15502E78" FromRole="Materia" ToRole="Semestre" />
+          <NavigationProperty Name="Semestre" Relationship="Self.FK__Materia__IdSemes__15502E78" FromRole="Materia" ToRole="Semestre" />
         </EntityType>
         <EntityType Name="Semestre">
           <Key>
             <PropertyRef Name="IdSemestre" />
           </Key>
           <Property Name="IdSemestre" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Materias" Relationship="LEscogidoProgramacionNCapasGJModel.FK__Materia__IdSemes__15502E78" FromRole="Semestre" ToRole="Materia" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Materias" Relationship="Self.FK__Materia__IdSemes__15502E78" FromRole="Semestre" ToRole="Materia" />
         </EntityType>
         <Association Name="FK__Materia__IdSemes__15502E78">
-          <End Type="LEscogidoProgramacionNCapasGJModel.Semestre" Role="Semestre" Multiplicity="0..1" />
-          <End Type="LEscogidoProgramacionNCapasGJModel.Materia" Role="Materia" Multiplicity="*" />
+          <End Role="Semestre" Type="Self.Semestre" Multiplicity="0..1" />
+          <End Role="Materia" Type="Self.Materia" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Semestre">
               <PropertyRef Name="IdSemestre" />
@@ -101,16 +84,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="MateriaGetAll_Result">
-          <Property Type="Int32" Name="IdMateria" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="Creditos" Nullable="true" />
-          <Property Type="Byte" Name="IdSemestre" Nullable="true" />
-        </ComplexType>
+        <EntityContainer Name="LEscogidoProgramacionNCapasGJEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Materias" EntityType="Self.Materia" />
+          <EntitySet Name="Semestres" EntityType="Self.Semestre" />
+          <AssociationSet Name="FK__Materia__IdSemes__15502E78" Association="Self.FK__Materia__IdSemes__15502E78">
+            <End Role="Semestre" EntitySet="Semestres" />
+            <End Role="Materia" EntitySet="Materias" />
+          </AssociationSet>
+          <FunctionImport Name="MateriaAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Creditos" Mode="In" Type="Byte" />
+            <Parameter Name="IdSemestre" Mode="In" Type="Byte" />
+          </FunctionImport>
+          <FunctionImport Name="MateriaGetById" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result)">
+          <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result)" />
+        </EntityContainer>
         <ComplexType Name="MateriaGetById_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="Creditos" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MateriaGetAll_Result">
+          <Property Type="Int32" Name="IdMateria" Nullable="true" />
+          <Property Type="String" Name="NombreMateria" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="Creditos" Nullable="true" />
+          <Property Type="Byte" Name="IdSemestre" Nullable="true" />
+          <Property Type="String" Name="NombreSemestre" Nullable="false" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -118,41 +119,42 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LEscogidoProgramacionNCapasGJModelStoreContainer" CdmEntityContainer="LEscogidoProgramacionNCapasGJEntities">
-          <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaAdd" />
           <EntitySetMapping Name="Materias">
             <EntityTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.Materia">
               <MappingFragment StoreEntitySet="Materia">
-                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
-                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Semestres">
             <EntityTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.Semestre">
               <MappingFragment StoreEntitySet="Semestre">
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaGetAll">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result">
-                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
-                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaAdd" />
           <FunctionImportMapping FunctionImportName="MateriaGetById" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaGetById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result">
                 <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result">
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="NombreMateria" ColumnName="NombreMateria" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+                <ScalarProperty Name="NombreSemestre" ColumnName="NombreSemestre" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

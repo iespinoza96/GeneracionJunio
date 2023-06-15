@@ -20,7 +20,7 @@ namespace PL
             Console.WriteLine("Ingrese los creditos");
             materia.Creditos = byte.Parse(Console.ReadLine());
 
-            Console.WriteLine("Ingrese los creditos");
+            Console.WriteLine("Ingrese el id del Semestre");
             materia.Semestre = new ML.Semestre(); 
             materia.Semestre.IdSemestre = byte.Parse(Console.ReadLine());
 
@@ -28,7 +28,8 @@ namespace PL
 
             //ML.Result result = BL.Materia.Add(materia); //query
             //ML.Result result = BL.Materia.AddSP(materia); //SP
-            ML.Result result = BL.Materia.AddEF(materia); //EF
+            //ML.Result result = BL.Materia.AddEF(materia); //EF
+            ML.Result result = BL.Materia.AddLINQ(materia); //EF
 
             if (result.Correct)
             {
@@ -38,7 +39,7 @@ namespace PL
             {
                 Console.WriteLine(result.Message);
             }
-            Console.ReadKey();
+         
 
 
         }
@@ -67,7 +68,8 @@ namespace PL
 
         public static void GetAll()
         {
-            ML.Result result = BL.Materia.GetAllSP();
+            //ML.Result result = BL.Materia.GetAllEF();
+            ML.Result result = BL.Materia.GetAllLINQ();
 
             if (result.Correct)
             {
@@ -78,6 +80,8 @@ namespace PL
                     Console.WriteLine("El id de la materia es: " + materia.IdMateria);
                     Console.WriteLine("El nombre de la materia es: " + materia.Nombre);
                     Console.WriteLine("El creditos de la materia es: " + materia.Creditos);
+                    Console.WriteLine("El id del semestre es: " + materia.Semestre.IdSemestre);
+                    Console.WriteLine("El nombre del semestre de la materia es: " + materia.Semestre.Nombre);
                     Console.WriteLine("------------------------------------------------------");
 
                 }

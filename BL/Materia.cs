@@ -233,7 +233,172 @@ namespace BL
             return result;
 
         }
+        public static ML.Result GetAllEF()
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
+                {
+                    var query = context.MateriaGetAll().ToList();
 
-        
+                    if (query.Count > 0)
+                    {
+                        result.Objects = new List<object>();
+                        foreach (var resultMateria in query)//iterar sobre listas, colecciones, arreglos
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.Nombre = resultMateria.NombreMateria;
+                            materia.Creditos = resultMateria.Creditos.Value;
+                            materia.Semestre = new ML.Semestre(); //instancia de la propiedad de navegación, solo se instancia una vez
+                            materia.Semestre.IdSemestre = resultMateria.IdSemestre.Value;
+                            materia.Semestre.Nombre = resultMateria.NombreSemestre;
+
+                            result.Objects.Add(materia);
+                        }
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public static ML.Result GetByIdEF(int idMateria)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
+                {
+                    var query = context.MateriaGetById(idMateria).FirstOrDefault();
+
+                    if (query != null)
+                    {
+                        ML.Materia materia = new ML.Materia();
+                        materia.IdMateria = query.IdMateria;
+                        materia.Nombre = query.Nombre;
+                        materia.Creditos = query.Creditos.Value;
+
+                        result.Objects.Add(materia);
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        //LINQ
+
+        public static ML.Result GetAllLINQ()
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
+                {
+                    var queryList = (from materiaLinq in context.Materias
+                                 join semestreLinq in context.Semestres on materiaLinq.IdSemestre equals semestreLinq.IdSemestre
+                                 select new {
+                                     IdMateria = materiaLinq.IdMateria,
+                                     Nombre = materiaLinq.Nombre, 
+                                     Creditos = materiaLinq.Creditos, 
+                                     IdSemestre = materiaLinq.IdSemestre,
+                                     NombreSemestre = semestreLinq.Nombre
+                                 });
+
+                    result.Objects = new List<object>();
+
+                    if (queryList != null && queryList.ToList().Count > 0)
+                    {
+                        foreach (var obj in queryList)
+                        {
+                            ML.Materia materia = new ML.Materia();
+                            materia.IdMateria = obj.IdMateria;
+                            materia.Nombre = obj.Nombre;
+                            materia.Creditos = obj.Creditos.Value;
+
+                            materia.Semestre = new ML.Semestre();
+                            materia.Semestre.IdSemestre = obj.IdSemestre.Value;
+                            materia.Semestre.Nombre = obj.NombreSemestre;
+
+                            result.Objects.Add(materia);
+                        }
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.Message = "No se encontraron registros";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public static ML.Result AddLINQ(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
+                {
+                    DL_EF.Materia materiaLinq = new DL_EF.Materia();
+
+                    materiaLinq.Nombre = materia.Nombre;
+                    materiaLinq.Creditos = materia.Creditos;
+                    materiaLinq.IdSemestre = materia.Semestre.IdSemestre;
+                    
+
+                    context.Materias.Add(materiaLinq);
+                    int rowsAffected = context.SaveChanges();
+
+                    if (rowsAffected > 0 )
+                    {
+                        result.Correct = true;
+                        result.Message = "Registro insertado correctamente";
+                    }
+
+
+                }
+
+                
+            }
+
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+
+
     }
 }
