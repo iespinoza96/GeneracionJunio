@@ -15,7 +15,7 @@ namespace PL_MVC.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Ya es viernes :D.";
 
             return View();
         }
