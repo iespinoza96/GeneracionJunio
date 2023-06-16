@@ -47,6 +47,11 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaAdd", nombreParameter, creditosParameter, idSemestreParameter);
         }
     
+        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
+        }
+    
         public virtual ObjectResult<MateriaGetById_Result> MateriaGetById(Nullable<int> idMateria)
         {
             var idMateriaParameter = idMateria.HasValue ?
@@ -56,9 +61,25 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetById_Result>("MateriaGetById", idMateriaParameter);
         }
     
-        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
+        public virtual int MateriaUpdate(Nullable<int> idMateria, string nombre, Nullable<byte> creditos, Nullable<byte> idSemestre)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
+            var idMateriaParameter = idMateria.HasValue ?
+                new ObjectParameter("IdMateria", idMateria) :
+                new ObjectParameter("IdMateria", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var creditosParameter = creditos.HasValue ?
+                new ObjectParameter("Creditos", creditos) :
+                new ObjectParameter("Creditos", typeof(byte));
+    
+            var idSemestreParameter = idSemestre.HasValue ?
+                new ObjectParameter("IdSemestre", idSemestre) :
+                new ObjectParameter("IdSemestre", typeof(byte));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaUpdate", idMateriaParameter, nombreParameter, creditosParameter, idSemestreParameter);
         }
     }
 }

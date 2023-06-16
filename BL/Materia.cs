@@ -288,8 +288,13 @@ namespace BL
                         materia.IdMateria = query.IdMateria;
                         materia.Nombre = query.Nombre;
                         materia.Creditos = query.Creditos.Value;
+                        
 
-                        result.Objects.Add(materia);
+                        materia.Semestre = new ML.Semestre();
+                        //materia.Semestre.IdSemestre = query.;
+
+
+                        result.Object = materia;
                         result.Correct = true;
                     }
                     else

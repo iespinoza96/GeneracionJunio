@@ -42,6 +42,12 @@
         <Function Name="MateriaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
+        <Function Name="MateriaUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdMateria" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Creditos" Type="tinyint" Mode="In" />
+          <Parameter Name="IdSemestre" Type="tinyint" Mode="In" />
+        </Function>
         <EntityContainer Name="LEscogidoProgramacionNCapasGJModelStoreContainer">
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semestre" EntityType="Self.Semestre" Schema="dbo" store:Type="Tables" />
@@ -96,19 +102,27 @@
             <Parameter Name="Creditos" Mode="In" Type="Byte" />
             <Parameter Name="IdSemestre" Mode="In" Type="Byte" />
           </FunctionImport>
-          <FunctionImport Name="MateriaGetById" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result)">
-          <Parameter Name="IdMateria" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="MateriaGetAll" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result)" />
+          <FunctionImport Name="MateriaGetById" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result)">
+            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MateriaUpdate">
+            <Parameter Name="IdMateria" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Creditos" Mode="In" Type="Byte" />
+            <Parameter Name="IdSemestre" Mode="In" Type="Byte" />
+          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="MateriaGetById_Result">
-          <Property Type="Int32" Name="IdMateria" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="Creditos" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="MateriaGetAll_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="true" />
           <Property Type="String" Name="NombreMateria" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="Creditos" Nullable="true" />
+          <Property Type="Byte" Name="IdSemestre" Nullable="true" />
+          <Property Type="String" Name="NombreSemestre" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="MateriaGetById_Result">
+          <Property Type="Int32" Name="IdMateria" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="Creditos" Nullable="true" />
           <Property Type="Byte" Name="IdSemestre" Nullable="true" />
           <Property Type="String" Name="NombreSemestre" Nullable="false" MaxLength="50" />
@@ -138,15 +152,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="MateriaAdd" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaAdd" />
-          <FunctionImportMapping FunctionImportName="MateriaGetById" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaGetById">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result">
-                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MateriaGetAll" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result">
@@ -158,6 +163,18 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MateriaGetById" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result">
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Creditos" ColumnName="Creditos" />
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+                <ScalarProperty Name="NombreSemestre" ColumnName="NombreSemestre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MateriaUpdate" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaUpdate" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
