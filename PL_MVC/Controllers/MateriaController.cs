@@ -9,6 +9,7 @@ namespace PL_MVC.Controllers
     public class MateriaController : Controller
     {
         // GET: Materia
+        [HttpGet]
         public ActionResult GetAll()
         {
             ML.Result result = BL.Materia.GetAllLINQ();
@@ -16,7 +17,7 @@ namespace PL_MVC.Controllers
 
             if (result.Correct)
             {
-               
+
 
                 materia.Materias = result.Objects;
                 return View(materia);
@@ -27,7 +28,16 @@ namespace PL_MVC.Controllers
                 ViewBag.Message = result.Message;
                 return View(materia);
             }
-            
+
         }
+
+
+        [HttpGet]
+
+        public ActionResult Form()
+        {
+            return View();
+        }
+
     }
 }

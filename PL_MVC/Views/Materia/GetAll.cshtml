@@ -4,57 +4,71 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Materias</h2>
-<p>Modulo de materias el boton verde es para agregar una nueva materia</p>
-<p>El boton amarillo es para modificar la informacion de una materia</p>
-<p>El boton rojo es para eliminar una materia</p>
-
-<button type="button" class="btn btn-success">+</button>
-
 <div class="container">
-    @if (Model.Materias != null)
-    {
-        <div class="row">
-            <table class="table table-dark table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Editar</th>
-                        <th scope="col">IdMateria</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Creditos</th>
-                        <th scope="col">IdSemestre</th>
-                        <th scope="col">Semestre</th>
-                        <th scope="col">Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (ML.Materia materia in Model.Materias)
-                    {
+    <div>
+        <h2>Materias</h2>
+        <p>Modulo de materias el boton verde es para agregar una nueva materia</p>
+        <p>El boton amarillo es para modificar la informacion de una materia</p>
+        <p>El boton rojo es para eliminar una materia</p>
+    </div>
+
+    <div>
+        @*<button type="button" class="btn btn-success">Agregar</button>*@
+        @Html.ActionLink("Agregar", "Form", "Materia", new { area = "" }, new { @class = "btn btn-success" })
+    </div>
+
+
+
+    
+    <div>
+        @if (Model.Materias != null)
+        {
+            <div class="row">
+                <table class="table table-dark table-striped">
+                    <thead>
                         <tr>
-
-                            <td><button type="button" class="btn btn-warning bi bi-pencil-fill"></button></td>
-                            <td>@materia.IdMateria</td>
-                            <td>@materia.Nombre</td>
-                            <td>@materia.Creditos</td>
-                            <td>@materia.Semestre.IdSemestre</td>
-                            <td>@materia.Semestre.Nombre</td>
-                            <td><button type="button" class="btn btn-danger bi bi-recycle"></button></td>
-
+                            <th scope="col">Editar</th>
+                            <th scope="col">IdMateria</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Creditos</th>
+                            <th scope="col">IdSemestre</th>
+                            <th scope="col">Semestre</th>
+                            <th scope="col">Eliminar</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (ML.Materia materia in Model.Materias)
+                        {
+                            <tr>
 
-                    }
+                                <td>
+                                <a class="btn btn-warning btn btn-warning bi bi-pencil-fill" href="@Url.Action("Form", "Materia", new { IdMateria = materia.IdMateria })"></a>
+                                <button type="button" class="btn btn-warning bi bi-pencil-fill"></button></td>
+                                <td>@materia.IdMateria</td>
+                                <td>@materia.Nombre</td>
+                                <td>@materia.Creditos</td>
+                                <td>@materia.Semestre.IdSemestre</td>
+                                <td>@materia.Semestre.Nombre</td>
+                                <td><button type="button" class="btn btn-danger bi bi-recycle"></button></td>
 
-                </tbody>
-            </table>
+                            </tr>
 
-        </div>
-    }
-    else
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.Message
-        </div>
-    }
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Message
+            </div>
+        }
+    </div>
+
+    
 
 </div>
 
