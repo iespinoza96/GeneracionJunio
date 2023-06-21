@@ -17,8 +17,6 @@ namespace PL_MVC.Controllers
 
             if (result.Correct)
             {
-
-
                 materia.Materias = result.Objects;
                 return View(materia);
             }
@@ -33,11 +31,68 @@ namespace PL_MVC.Controllers
 
 
         [HttpGet]
-
-        public ActionResult Form()
+        public ActionResult Form(int? idMateria)
         {
-            return View();
+            if (idMateria == null)
+            {
+                //AGREGAR
+                //MOSTRAR EL FORMULARIO VACIO 
+                ViewBag.Titulo = "Agregar";
+                
+                return View();
+            }
+            else
+            {
+                //GetById(IdMateria)
+                ML.Result result = BL.Materia.GetByIdEF(idMateria.Value);
+
+                if (result.Correct)
+                {
+                    ML.Materia materia = (ML.Materia)result.Object; //unboxing
+                    ViewBag.Titulo = "Actualizar";
+                    return View(materia);
+                }
+                //return View(materia);
+
+
+                return View();
+
+            }
+            
         }
+
+        [HttpPost]
+        public ActionResult Form(ML.Materia materia)
+        {
+            if (materia.IdMateria == 0)
+            {
+                //AGREGAR
+                ML.Result result = BL.Materia.AddLINQ(materia);
+
+                if (result.Correct)
+                {
+                    ViewBag.Titulo = "Registro Exitoso";
+                    ViewBag.Message = result.Message;
+                    return View("Modal");
+                }
+                else
+                {
+                    ViewBag.Titulo = "ERROR";
+                    ViewBag.Message = result.Message;
+                    return View("Modal");
+                }
+                
+            }
+            else
+            {
+                //ACTUALIZAR
+                //ML.Result result = BL.Materia.
+                return View();
+
+            }
+
+        }
+
 
     }
 }
