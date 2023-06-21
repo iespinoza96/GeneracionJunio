@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace PL_MVC.Controllers
 {
@@ -33,22 +34,29 @@ namespace PL_MVC.Controllers
         [HttpGet]
         public ActionResult Form(int? idMateria)
         {
+            ML.Result resultSemestre = BL.Semestre.GetAll();//mandamos a llamar a getall de semestres 
+
+            ML.Materia materia = new ML.Materia(); //objeto global
+            materia.Semestre = new ML.Semestre();
+
+            materia.Semestre.Semestres = resultSemestre.Objects; // guardamos la lista de semestre en un objeto materia
+
             if (idMateria == null)
             {
                 //AGREGAR
                 //MOSTRAR EL FORMULARIO VACIO 
                 ViewBag.Titulo = "Agregar";
                 
-                return View();
+                return View(materia);
             }
             else
             {
                 //GetById(IdMateria)
-                ML.Result result = BL.Materia.GetByIdEF(idMateria.Value);
+                ML.Result result = BL.Materia.GetByIdEF(idMateria.Value);// variable local
 
                 if (result.Correct)
                 {
-                    ML.Materia materia = (ML.Materia)result.Object; //unboxing
+                    materia = (ML.Materia)result.Object; //unboxing
                     ViewBag.Titulo = "Actualizar";
                     return View(materia);
                 }

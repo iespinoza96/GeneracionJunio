@@ -11,12 +11,9 @@ namespace DL_EF
 {
     using System;
     
-    public partial class MateriaGetById_Result
+    public partial class SemestreGetAll_Result
     {
-        public int IdMateria { get; set; }
+        public byte IdSemestre { get; set; }
         public string Nombre { get; set; }
-        public Nullable<byte> Creditos { get; set; }
-        public Nullable<byte> IdSemestre { get; set; }
-        public string NombreSemestre { get; set; }
     }
 }
