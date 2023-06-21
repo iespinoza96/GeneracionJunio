@@ -52,10 +52,13 @@ namespace PL_MVC.Controllers
                     ViewBag.Titulo = "Actualizar";
                     return View(materia);
                 }
-                //return View(materia);
+                else 
+                {
+                    ViewBag.Titulo = "Error";
+                    ViewBag.Message = result.Message;
+                    return View("Modal");
+                }
 
-
-                return View();
 
             }
             
