@@ -8,6 +8,9 @@
         <EntityTypeShape EntityType="LEscogidoProgramacionNCapasGJModel.Materia" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="LEscogidoProgramacionNCapasGJModel.Semestre" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="LEscogidoProgramacionNCapasGJModel.FK__Materia__IdSemes__15502E78" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LEscogidoProgramacionNCapasGJModel.Grupo" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="LEscogidoProgramacionNCapasGJModel.Plantel" Width="1.5" PointX="0.75" PointY="4" />
+        <AssociationConnector Association="LEscogidoProgramacionNCapasGJModel.FK__Grupo__IdPlantel__29572725" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
