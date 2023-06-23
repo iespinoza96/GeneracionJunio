@@ -24,10 +24,10 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     @Html.LabelFor(model => model.IdMateria, new { @class = "control-label col-md-2 hidden" })
-                   
+
                     <div class="col-md-3">
                         @Html.TextBoxFor(model => model.IdMateria, new { @class = "form-control hidden", @readonly = true })
-                        
+
                         @Html.ValidationMessageFor(model => model.IdMateria)
                     </div>
                 </div>
@@ -52,22 +52,42 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Semestre, new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @*@Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })*@
+
                         @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Semestre.IdSemestre)
-
-                        @*<select class="form-select">
-                            <option>Primero</option>
-                            <option>Segundo</option>
-                            <option>Tercero</option>
-                            <option>Cuarto</option>
-                        </select>*@
 
 
                     </div>
 
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Horario.Grupo.Plantel, new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
 
+                        @Html.DropDownListFor(model => model.Horario.Grupo.Plantel.IdPlantel, new SelectList(Model.Horario.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Horario.Grupo.Plantel.IdPlantel)
+
+
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Horario.Grupo, new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
+                        @if (Model.Horario.Grupo.Grupos == null || Model.Horario.Grupo.Grupos.Count == 0)
+                        {
+                            @Html.DropDownListFor(model => model.Horario.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona una opcion", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Horario.Grupo.IdGrupo)
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.Horario.Grupo.IdGrupo, new SelectList(Model.Horario.Grupo.Grupos, "IdGrupo", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Horario.Grupo.IdGrupo)
+                        }
+
+                    </div>
+
+                </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="@ViewBag.Titulo" class="btn btn-success" />
@@ -84,4 +104,27 @@
     </div>
 
 </div>
-
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $(document).ready(function () {
+        $("#ddlPais").change(function () {
+            $("#ddlEstado").empty();
+            $.ajax({
+                type: 'GET', 
+                url: '@Url.Action("GetGrupos")',
+                dataType: 'json',
+                data: { idPlantel: $("#ddlPais").val() },
+                success: function (estados) {
+                    $("#ddlEstado").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
+                    $.each(estados, function (i, estados) {
+                        $("#ddlEstado").append('<option value="'
+                                                   + estados.IdEstado + '">'
+                                                   + estados.Nombre + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed.' + ex);
+                }
+            });
+        });
+</script>

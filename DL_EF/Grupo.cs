@@ -14,10 +14,18 @@ namespace DL_EF
     
     public partial class Grupo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Grupo()
+        {
+            this.Horarios = new HashSet<Horario>();
+        }
+    
         public int IdGrupo { get; set; }
         public string Nombre { get; set; }
         public Nullable<int> IdPlantel { get; set; }
     
         public virtual Plantel Plantel { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Horario> Horarios { get; set; }
     }
 }

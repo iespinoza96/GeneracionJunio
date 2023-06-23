@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Grupo.cs" />
+    <Compile Include="Horario.cs" />
     <Compile Include="Materia.cs" />
     <Compile Include="Plantel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

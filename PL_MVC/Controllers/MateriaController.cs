@@ -35,11 +35,16 @@ namespace PL_MVC.Controllers
         public ActionResult Form(int? idMateria)
         {
             ML.Result resultSemestre = BL.Semestre.GetAll();//mandamos a llamar a getall de semestres 
+            ML.Result resultPlantel = BL.Plantel.GetAll();
 
             ML.Materia materia = new ML.Materia(); //objeto global
             materia.Semestre = new ML.Semestre();
+            materia.Horario = new ML.Horario();
+            materia.Horario.Grupo = new ML.Grupo();
+            materia.Horario.Grupo.Plantel = new ML.Plantel();
 
             materia.Semestre.Semestres = resultSemestre.Objects; // guardamos la lista de semestre en un objeto materia
+            materia.Horario.Grupo.Plantel.Planteles = resultPlantel.Objects;
 
             if (idMateria == null)
             {
@@ -104,6 +109,11 @@ namespace PL_MVC.Controllers
 
         }
 
-
+        [HttpGet]
+        public ActionResult GetGrupos(int idPlantel)
+        {
+            ML.Result result = BL.Grupo.GetByIdPlantel(idPlantel);
+            return Json(result);
+        }
     }
 }

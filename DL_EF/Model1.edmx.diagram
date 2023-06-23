@@ -11,6 +11,9 @@
         <EntityTypeShape EntityType="LEscogidoProgramacionNCapasGJModel.Grupo" Width="1.5" PointX="3" PointY="3.875" />
         <EntityTypeShape EntityType="LEscogidoProgramacionNCapasGJModel.Plantel" Width="1.5" PointX="0.75" PointY="4" />
         <AssociationConnector Association="LEscogidoProgramacionNCapasGJModel.FK__Grupo__IdPlantel__29572725" />
+        <EntityTypeShape EntityType="LEscogidoProgramacionNCapasGJModel.Horario" Width="1.5" PointX="5.25" PointY="1.125" />
+        <AssociationConnector Association="LEscogidoProgramacionNCapasGJModel.FK__Horario__IdAlumn__29572725" />
+        <AssociationConnector Association="LEscogidoProgramacionNCapasGJModel.FK__Horario__IdGrupo__2B3F6F97" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
