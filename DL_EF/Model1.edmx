@@ -13,15 +13,6 @@
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="IdPlantel" Type="int" />
         </EntityType>
-        <EntityType Name="Horario">
-          <Key>
-            <PropertyRef Name="IdHorario" />
-          </Key>
-          <Property Name="IdHorario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Turno" Type="varchar" MaxLength="50" />
-          <Property Name="IdAlumno" Type="int" />
-          <Property Name="IdGrupo" Type="int" />
-        </EntityType>
         <EntityType Name="Materia">
           <Key>
             <PropertyRef Name="IdMateria" />
@@ -45,27 +36,15 @@
           <Property Name="IdSemestre" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Horario__IdAlumn__29572725">
-          <End Role="Materia" Type="Self.Materia" Multiplicity="0..1" />
-          <End Role="Horario" Type="Self.Horario" Multiplicity="*" />
+        <Association Name="FK__Grupo__IdPlantel__29572725">
+          <End Role="Plantel" Type="Self.Plantel" Multiplicity="0..1" />
+          <End Role="Grupo" Type="Self.Grupo" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Materia">
-              <PropertyRef Name="IdMateria" />
+            <Principal Role="Plantel">
+              <PropertyRef Name="IdPlantel" />
             </Principal>
-            <Dependent Role="Horario">
-              <PropertyRef Name="IdAlumno" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Horario__IdGrupo__2B3F6F97">
-          <End Role="Grupo" Type="Self.Grupo" Multiplicity="0..1" />
-          <End Role="Horario" Type="Self.Horario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Grupo">
-              <PropertyRef Name="IdGrupo" />
-            </Principal>
-            <Dependent Role="Horario">
-              <PropertyRef Name="IdGrupo" />
+            <Dependent Role="Grupo">
+              <PropertyRef Name="IdPlantel" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -81,33 +60,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GrupoGetByIdPlantel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPlantel" Type="int" Mode="In" />
+        </Function>
         <Function Name="MateriaAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="Creditos" Type="tinyint" Mode="In" />
           <Parameter Name="IdSemestre" Type="tinyint" Mode="In" />
         </Function>
-        <Function Name="MateriaDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdMateria" Type="int" Mode="In" />
-        </Function>
         <Function Name="MateriaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="MateriaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MateriaUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdMateria" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Creditos" Type="tinyint" Mode="In" />
+          <Parameter Name="IdSemestre" Type="tinyint" Mode="In" />
         </Function>
         <Function Name="PlantelGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SemestreGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="LEscogidoProgramacionNCapasGJModelStoreContainer">
           <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Horario" EntityType="Self.Horario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Plantel" EntityType="Self.Plantel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Semestre" EntityType="Self.Semestre" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Horario__IdAlumn__29572725" Association="Self.FK__Horario__IdAlumn__29572725">
-            <End Role="Materia" EntitySet="Materia" />
-            <End Role="Horario" EntitySet="Horario" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Horario__IdGrupo__2B3F6F97" Association="Self.FK__Horario__IdGrupo__2B3F6F97">
+          <AssociationSet Name="FK__Grupo__IdPlantel__29572725" Association="Self.FK__Grupo__IdPlantel__29572725">
+            <End Role="Plantel" EntitySet="Plantel" />
             <End Role="Grupo" EntitySet="Grupo" />
-            <End Role="Horario" EntitySet="Horario" />
           </AssociationSet>
           <AssociationSet Name="FK__Materia__IdSemes__15502E78" Association="Self.FK__Materia__IdSemes__15502E78">
             <End Role="Semestre" EntitySet="Semestre" />
@@ -178,9 +158,6 @@
             <End Role="Plantel" EntitySet="Plantels" />
             <End Role="Grupo" EntitySet="Grupoes" />
           </AssociationSet>
-          <FunctionImport Name="GrupoGetByIdPlantel" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.GrupoGetByIdPlantel_Result)">
-            <Parameter Name="IdPlantel" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Horarios" EntityType="LEscogidoProgramacionNCapasGJModel.Horario" />
           <AssociationSet Name="FK__Horario__IdAlumn__29572725" Association="LEscogidoProgramacionNCapasGJModel.FK__Horario__IdAlumn__29572725">
             <End Role="Materia" EntitySet="Materias" />
@@ -194,6 +171,9 @@
             <End Role="Horario" EntitySet="Horarios" />
           </AssociationSet>
           <FunctionImport Name="PlantelGetAll" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.PlantelGetAll_Result)" />
+          <FunctionImport Name="GrupoGetByIdPlantel" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.GrupoGetByIdPlantel_Result)">
+            <Parameter Name="IdPlantel" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="MateriaGetAll_Result">
           <Property Type="Int32" Name="IdMateria" Nullable="true" />
@@ -243,11 +223,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GrupoGetByIdPlantel_Result">
-          <Property Type="Int32" Name="IdGrupo" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="IdPlantel" Nullable="true" />
-        </ComplexType>
         <EntityType Name="Horario">
           <Key>
             <PropertyRef Name="IdHorario" />
@@ -286,6 +261,11 @@
         <ComplexType Name="PlantelGetAll_Result">
           <Property Type="Int32" Name="IdPlantel" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GrupoGetByIdPlantel_Result">
+          <Property Type="Int32" Name="IdGrupo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdPlantel" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -359,22 +339,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Horarios">
-            <EntityTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.Horario">
-              <MappingFragment StoreEntitySet="Horario">
-                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
-                <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
-                <ScalarProperty Name="Turno" ColumnName="Turno" />
-                <ScalarProperty Name="IdHorario" ColumnName="IdHorario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="MateriaDelete" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.MateriaDelete" />
           <FunctionImportMapping FunctionImportName="PlantelGetAll" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.PlantelGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.PlantelGetAll_Result">
                 <ScalarProperty Name="IdPlantel" ColumnName="IdPlantel" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GrupoGetByIdPlantel" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.GrupoGetByIdPlantel">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.GrupoGetByIdPlantel_Result">
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdPlantel" ColumnName="IdPlantel" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -90,15 +90,6 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SemestreGetAll_Result>("SemestreGetAll");
         }
     
-        public virtual ObjectResult<GrupoGetByIdPlantel_Result> GrupoGetByIdPlantel(Nullable<int> idPlantel)
-        {
-            var idPlantelParameter = idPlantel.HasValue ?
-                new ObjectParameter("IdPlantel", idPlantel) :
-                new ObjectParameter("IdPlantel", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GrupoGetByIdPlantel_Result>("GrupoGetByIdPlantel", idPlantelParameter);
-        }
-    
         public virtual int MateriaDelete(Nullable<int> idMateria)
         {
             var idMateriaParameter = idMateria.HasValue ?
@@ -111,6 +102,15 @@ namespace DL_EF
         public virtual ObjectResult<PlantelGetAll_Result> PlantelGetAll()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PlantelGetAll_Result>("PlantelGetAll");
+        }
+    
+        public virtual ObjectResult<GrupoGetByIdPlantel_Result> GrupoGetByIdPlantel(Nullable<int> idPlantel)
+        {
+            var idPlantelParameter = idPlantel.HasValue ?
+                new ObjectParameter("IdPlantel", idPlantel) :
+                new ObjectParameter("IdPlantel", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GrupoGetByIdPlantel_Result>("GrupoGetByIdPlantel", idPlantelParameter);
         }
     }
 }

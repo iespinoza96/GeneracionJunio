@@ -43,7 +43,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Creditos, new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control", @id = "txtCreditos" })
                         @Html.ValidationMessageFor(model => model.Creditos)
                     </div>
 
@@ -64,7 +64,7 @@
                     @Html.LabelFor(model => model.Horario.Grupo.Plantel, new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
 
-                        @Html.DropDownListFor(model => model.Horario.Grupo.Plantel.IdPlantel, new SelectList(Model.Horario.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Horario.Grupo.Plantel.IdPlantel, new SelectList(Model.Horario.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona una opcion", new { @class = "form-control", @id = "ddlPlantel" })
                         @Html.ValidationMessageFor(model => model.Horario.Grupo.Plantel.IdPlantel)
 
 
@@ -76,12 +76,12 @@
                     <div class="col-md-3">
                         @if (Model.Horario.Grupo.Grupos == null || Model.Horario.Grupo.Grupos.Count == 0)
                         {
-                            @Html.DropDownListFor(model => model.Horario.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona una opcion", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.Horario.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona una opcion", new { @class = "form-control", @id = "ddlGrupo" })
                             @Html.ValidationMessageFor(model => model.Horario.Grupo.IdGrupo)
                         }
                         else
                         {
-                            @Html.DropDownListFor(model => model.Horario.Grupo.IdGrupo, new SelectList(Model.Horario.Grupo.Grupos, "IdGrupo", "Nombre"), "Selecciona una opcion", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.Horario.Grupo.IdGrupo, new SelectList(Model.Horario.Grupo.Grupos, "IdGrupo", "Nombre"), "Selecciona una opcion", new { @class = "form-control", @id = "ddlGrupo" })
                             @Html.ValidationMessageFor(model => model.Horario.Grupo.IdGrupo)
                         }
 
@@ -105,21 +105,23 @@
 
 </div>
 @Scripts.Render("~/bundles/jquery")
-<script>
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+<script type="text/javascript">
     $(document).ready(function () {
-        $("#ddlPais").change(function () {
-            $("#ddlEstado").empty();
+        $("#ddlPlantel").change(function () {
+            $("#ddlGrupo").empty();
             $.ajax({
-                type: 'GET', 
+                type: 'GET',
                 url: '@Url.Action("GetGrupos")',
                 dataType: 'json',
-                data: { idPlantel: $("#ddlPais").val() },
-                success: function (estados) {
-                    $("#ddlEstado").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
-                    $.each(estados, function (i, estados) {
-                        $("#ddlEstado").append('<option value="'
-                                                   + estados.IdEstado + '">'
-                                                   + estados.Nombre + '</option>');
+                data: { idPlantel: $("#ddlPlantel").val() },
+                success: function (grupos) {
+                    $("#ddlGrupo").append('<option value="0">' + 'Seleccione una opción' + '</option>');
+                    $.each(grupos, function (i, grupos) {
+                        $("#ddlGrupo").append('<option value="'
+                            + grupos.IdGrupo + '">'
+                            + grupos.Nombre + '</option>');
                     });
                 },
                 error: function (ex) {
@@ -127,4 +129,5 @@
                 }
             });
         });
+    });
 </script>

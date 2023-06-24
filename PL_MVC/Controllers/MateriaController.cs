@@ -110,10 +110,11 @@ namespace PL_MVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetGrupos(int idPlantel)
+        public JsonResult GetGrupos(int idPlantel)
         {
+            
             ML.Result result = BL.Grupo.GetByIdPlantel(idPlantel);
-            return Json(result);
+            return Json(result.Objects, JsonRequestBehavior.AllowGet);
         }
     }
 }
