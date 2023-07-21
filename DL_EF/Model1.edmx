@@ -21,6 +21,9 @@
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Creditos" Type="tinyint" />
           <Property Name="IdSemestre" Type="tinyint" />
+          <Property Name="Imagen" Type="varchar(max)" />
+          <Property Name="FechaCreacion" Type="date" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="Plantel">
           <Key>
@@ -67,8 +70,15 @@
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="Creditos" Type="tinyint" Mode="In" />
           <Parameter Name="IdSemestre" Type="tinyint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="FechaCreacion" Type="varchar" Mode="In" />
+          <Parameter Name="Turno" Type="varchar" Mode="In" />
+          <Parameter Name="IdGrupo" Type="int" Mode="In" />
         </Function>
-        <Function Name="MateriaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="MateriaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Semestre" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="MateriaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdMateria" Type="int" Mode="In" />
         </Function>
@@ -79,6 +89,9 @@
           <Parameter Name="IdSemestre" Type="tinyint" Mode="In" />
         </Function>
         <Function Name="PlantelGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SemestreAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="SemestreGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="LEscogidoProgramacionNCapasGJModelStoreContainer">
           <EntitySet Name="Grupo" EntityType="Self.Grupo" Schema="dbo" store:Type="Tables" />
@@ -108,6 +121,9 @@
           <Property Name="IdSemestre" Type="Byte" />
           <NavigationProperty Name="Semestre" Relationship="Self.FK__Materia__IdSemes__15502E78" FromRole="Materia" ToRole="Semestre" />
           <NavigationProperty Name="Horarios" Relationship="LEscogidoProgramacionNCapasGJModel.FK__Horario__IdAlumn__29572725" FromRole="Materia" ToRole="Horario" />
+          <Property Name="Imagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="0" />
+          <Property Name="Status" Type="Boolean" />
         </EntityType>
         <EntityType Name="Semestre">
           <Key>
@@ -140,8 +156,15 @@
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="Creditos" Mode="In" Type="Byte" />
             <Parameter Name="IdSemestre" Mode="In" Type="Byte" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="FechaCreacion" Mode="In" Type="String" />
+            <Parameter Name="Turno" Mode="In" Type="String" />
+            <Parameter Name="IdGrupo" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result)" />
+          <FunctionImport Name="MateriaGetAll" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetAll_Result)" >
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Semestre" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="MateriaGetById" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.MateriaGetById_Result)">
           <Parameter Name="IdMateria" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -172,7 +195,10 @@
           </AssociationSet>
           <FunctionImport Name="PlantelGetAll" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.PlantelGetAll_Result)" />
           <FunctionImport Name="GrupoGetByIdPlantel" ReturnType="Collection(LEscogidoProgramacionNCapasGJModel.GrupoGetByIdPlantel_Result)">
-            <Parameter Name="IdPlantel" Mode="In" Type="Int32" />
+          <Parameter Name="IdPlantel" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SemestreAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="MateriaGetAll_Result">
@@ -276,6 +302,9 @@
           <EntitySetMapping Name="Materias">
             <EntityTypeMapping TypeName="LEscogidoProgramacionNCapasGJModel.Materia">
               <MappingFragment StoreEntitySet="Materia">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Creditos" ColumnName="Creditos" />
@@ -356,6 +385,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SemestreAdd" FunctionName="LEscogidoProgramacionNCapasGJModel.Store.SemestreAdd" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

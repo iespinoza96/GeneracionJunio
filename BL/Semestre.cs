@@ -46,5 +46,34 @@ namespace BL
             }
            return result;
         }
+
+        public static ML.Result Add(string semestreNombre)
+        {
+            ML.Result result = new ML.Result();
+
+            try
+            {
+                using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
+                {
+                    int queryResult = context.SemestreAdd(semestreNombre);
+
+                    if (queryResult > 0)
+                    {
+                        result.Correct = true;
+                    }
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.Ex = ex;
+                result.Message = "Ocurrio un error al intentar registrar" + result.Ex;
+            }
+
+            return result;
+
+        }
     }
 }

@@ -20,7 +20,8 @@ namespace PL
             //materia.Add();
 
 
-            PL.Materia.Add();
+            //PL.Materia.Add();
+            PL.Semestre.Add();
             //PL.Materia.GetAll();
             //PL.Materia.GetById();
             //ML.Materia materia  = new ML.Materia();

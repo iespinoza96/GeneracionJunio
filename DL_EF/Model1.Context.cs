@@ -33,7 +33,7 @@ namespace DL_EF
         public virtual DbSet<Plantel> Plantels { get; set; }
         public virtual DbSet<Horario> Horarios { get; set; }
     
-        public virtual int MateriaAdd(string nombre, Nullable<byte> creditos, Nullable<byte> idSemestre)
+        public virtual int MateriaAdd(string nombre, Nullable<byte> creditos, Nullable<byte> idSemestre, string imagen, string fechaCreacion, string turno, Nullable<int> idGrupo)
         {
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -47,12 +47,36 @@ namespace DL_EF
                 new ObjectParameter("IdSemestre", idSemestre) :
                 new ObjectParameter("IdSemestre", typeof(byte));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaAdd", nombreParameter, creditosParameter, idSemestreParameter);
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(string));
+    
+            var fechaCreacionParameter = fechaCreacion != null ?
+                new ObjectParameter("FechaCreacion", fechaCreacion) :
+                new ObjectParameter("FechaCreacion", typeof(string));
+    
+            var turnoParameter = turno != null ?
+                new ObjectParameter("Turno", turno) :
+                new ObjectParameter("Turno", typeof(string));
+    
+            var idGrupoParameter = idGrupo.HasValue ?
+                new ObjectParameter("IdGrupo", idGrupo) :
+                new ObjectParameter("IdGrupo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MateriaAdd", nombreParameter, creditosParameter, idSemestreParameter, imagenParameter, fechaCreacionParameter, turnoParameter, idGrupoParameter);
         }
     
-        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll()
+        public virtual ObjectResult<MateriaGetAll_Result> MateriaGetAll(string nombre, string semestre)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll");
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var semestreParameter = semestre != null ?
+                new ObjectParameter("Semestre", semestre) :
+                new ObjectParameter("Semestre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MateriaGetAll_Result>("MateriaGetAll", nombreParameter, semestreParameter);
         }
     
         public virtual ObjectResult<MateriaGetById_Result> MateriaGetById(Nullable<int> idMateria)
@@ -111,6 +135,15 @@ namespace DL_EF
                 new ObjectParameter("IdPlantel", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GrupoGetByIdPlantel_Result>("GrupoGetByIdPlantel", idPlantelParameter);
+        }
+    
+        public virtual int SemestreAdd(string nombre)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SemestreAdd", nombreParameter);
         }
     }
 }

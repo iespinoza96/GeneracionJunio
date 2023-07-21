@@ -213,7 +213,7 @@ namespace BL
             {
                 using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
                 {
-                    int queryResult = context.MateriaAdd(materia.Nombre, materia.Creditos, materia.Semestre.IdSemestre);
+                    int queryResult = context.MateriaAdd(materia.Nombre, materia.Creditos, materia.Semestre.IdSemestre,materia.Imagen,materia.FechaCreacion,materia.Horario.Turno,materia.Horario.Grupo.IdGrupo);
 
                     if (queryResult > 0)
                     {
@@ -233,21 +233,21 @@ namespace BL
             return result;
 
         }
-        public static ML.Result GetAllEF()
+        public static ML.Result GetAllEF(ML.Materia materia)
         {
             ML.Result result = new ML.Result();
             try
             {
                 using (DL_EF.LEscogidoProgramacionNCapasGJEntities context = new DL_EF.LEscogidoProgramacionNCapasGJEntities())
                 {
-                    var query = context.MateriaGetAll().ToList();
+                    var query = context.MateriaGetAll(materia.Nombre,materia.Semestre.Nombre).ToList();
 
                     if (query.Count > 0)
                     {
                         result.Objects = new List<object>();
                         foreach (var resultMateria in query)//iterar sobre listas, colecciones, arreglos
                         {
-                            ML.Materia materia = new ML.Materia();
+                            materia = new ML.Materia();
                             materia.Nombre = resultMateria.NombreMateria;
                             materia.Creditos = resultMateria.Creditos.Value;
                             materia.Semestre = new ML.Semestre(); //instancia de la propiedad de navegación, solo se instancia una vez
